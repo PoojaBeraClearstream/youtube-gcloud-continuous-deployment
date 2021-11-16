@@ -1,32 +1,37 @@
-# .github/workflows/deploy.yml
-name: Deploy to Cloud Run
+name: Deploy 🚀 Clima to Google Cloud Run (☁🏃)
 on:
   push:
     branches:
       - main
-env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  APP_ID: continous-deployment
-  RUN_REGION: us-east1
-  SA_KEY_JSON: ${{ secrets.GCP_SA_KEY_JSON }}
 jobs:
   deploy:
-    name: Deploy to Cloud Run
+    name: Deploying 🚀 Clima
     runs-on: ubuntu-latest
-    if: "contains(github.event.head_commit.message, 'to deploy')"
+    if: "contains(github.event.head_commit.message, 'bump version')"
     steps:
-      - uses: actions/checkout@v2
-
-      # Setup gcloud CLI
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        with:
-          version: "290.0.1"
-          service_account_key: ${{ secrets.GCP_SA_KEY_JSON }}
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
+      - name: Checkout
+        uses: actions/checkout@v2
 
       # Build and push image to Google Container Registry
-      - name: Build
-        run: gcloud builds submit --tag gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_SHA
+      - name: Setting up
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          version: '286.0.0'
+          service_account_key: ${{ secrets.GCP_SA_KEY_JSON }}
+          service_account_email: "pooja.bera@deutsche-boerse.com"
+          project_id: dbg-corpservices-sbox-17ff8162
 
-      - name: Deploy
-        run: gcloud run deploy $APP_ID --image gcr.io/$PROJECT_ID/$APP_ID:$GITHUB_SHA --platform managed --region $RUN_REGION --allow-unauthenticated
+      - name: Building (🏗)
+        run: |-
+          gcloud builds submit \
+            --tag gcr.io/dbg-corpservices-sbox-17ff8162/github-actions
+
+      # Setup gcloud CLI
+      - name: Deploy (🚀)
+        uses: google-github-actions/deploy-cloudrun@main
+        with:
+          service: github-actions
+          image: gcr.io/dbg-corpservices-sbox-17ff8162/github-actions
+          region: us-east1
+          credentials: ${{ secrets.GCP_SA_KEY_JSON }}
+          project_id: dbg-corpservices-sbox-17ff8162
