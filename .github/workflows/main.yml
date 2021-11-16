@@ -1,8 +1,7 @@
 name: Deploy 🚀 Clima to Google Cloud Run (☁🏃)
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 jobs:
   deploy:
     name: Deploying 🚀 Clima
