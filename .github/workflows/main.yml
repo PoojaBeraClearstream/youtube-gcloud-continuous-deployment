@@ -13,9 +13,10 @@ jobs:
   deploy:
     name: Deploy to Cloud Run
     runs-on: ubuntu-latest
-        steps:
-      - uses: actions/checkout@v2
 
+    steps:
+    - uses: actions/checkout@v2
+    
       # Setup gcloud CLI
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
