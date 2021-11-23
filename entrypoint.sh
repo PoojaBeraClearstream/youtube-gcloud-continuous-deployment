@@ -1,3 +1,4 @@
+#!/bin/bash
 ACTIONS_RUNNER_INPUT_NAME=$HOSTNAME
 # get regsistration token for this runnner
 ACTIONS_RUNNER_INPUT_TOKEN="$(curl -sS --request POST --url "https://api.github.com/repos/PoojaBeraClearstream/youtube-gcloud-continuous-deployment/actions/runners/registration-token" --header "authorization: Bearer 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"  --header 'content-type: application/json' | jq -r .token)"
