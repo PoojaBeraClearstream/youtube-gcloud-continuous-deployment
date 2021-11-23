@@ -32,13 +32,13 @@ jobs:
         docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} .
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
         
-    - name: Deploy to Cloud Run
-      run: |-
+   # - name: Deploy to Cloud Run
+     # run: |-
         #gcloud run deploy ${{ env.SERVICE }} \
          # --region ${{ env.REGION }} \
          # --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} \
          # --platform "managed" \
           #--quiet 
 
-    #- name: Deploy
-     # run: gcloud run deploy ${{ env.PROJECT_ID }} --image gcr.io/${{ env.PROJECT_ID }}/${{ env.PROJECT_ID }}:${{  github.sha }} --platform managed --region ${{ env.REGION }}
+    - name: Deploy
+      run: gcloud run deploy ${{ env.PROJECT_ID }} --image gcr.io/${{ env.PROJECT_ID }}/${{ env.PROJECT_ID }}:${{  github.sha }} --platform managed --region ${{ env.REGION }}
