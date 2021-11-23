@@ -40,4 +40,4 @@ jobs:
           #--quiet 
 
     - name: Deploy
-        run: gcloud run deploy ${{ env.PROJECT_ID }} --image gcr.io/${{ env.PROJECT_ID }}/${{ env.PROJECT_ID }}:${{  github.sha }} --platform managed --region ${{ env.REGION }}
+      run: gcloud run deploy ${{ env.PROJECT_ID }} --image gcr.io/${{ env.PROJECT_ID }}/${{ env.PROJECT_ID }}:${{  github.sha }} --platform managed --region ${{ env.REGION }}
