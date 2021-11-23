@@ -8,6 +8,7 @@ env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT }}
   SERVICE: continuous-deployment
   REGION: us-east1
+  containerPort: 8080
 
 jobs:
   deploy:
