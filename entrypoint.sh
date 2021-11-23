@@ -6,4 +6,4 @@ export RUNNER_ALLOW_RUNASROOT=1
 /runner/config.sh --unattended --replace --work "/tmp" --url "$ACTIONS_RUNNER_INPUT_URL" --token "$ACTIONS_RUNNER_INPUT_TOKEN" --labels k8s-runner
 # start runner
 # https://github.com/actions/runner/issues/246#issuecomment-615293718
-#/runner/bin/runsvc.sh
+/runner/bin/runsvc.sh
