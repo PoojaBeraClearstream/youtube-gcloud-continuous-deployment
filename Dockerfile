@@ -18,6 +18,5 @@ RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/release
 
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
-EXPOSE 8080
 #ENTRYPOINT ["/bin/bash]
 ENTRYPOINT ["/runner/entrypoint.sh"]
