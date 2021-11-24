@@ -7,8 +7,6 @@ name: Build and Deploy to Cloud Run pooja
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT }}
   SERVICE: continuous-deployment
-  APP_ID: continous-deployment
-  RUN_REGION: us-east1
   REGION: us-east1
   PORT : 8080
   
@@ -33,18 +31,9 @@ jobs:
       run: |-
         docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} .
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
-
+        
     - name: Deploy to Cloud Run
-      id: deploy
-      uses: google-github-actions/deploy-cloudrun@v0.4.0
-      with:
-        service: ${{ env.SERVICE }}
-        image: gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
-        region: ${{ env.REGION }}
-        credentials: ${{ secrets.GCP_SA_KEY }}
-
-    #- name: Deploy to Cloud Run
-     # run: |-
+      run: |-
         #gcloud run deploy ${{ env.SERVICE }} \
          # --region ${{ env.REGION }} \
          # --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} \
