@@ -30,4 +30,4 @@ ENV RUNNER_ALLOW_RUNASROOT=1
 
 COPY entrypoint.sh .
 
-ENTRYPOINT [".entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
