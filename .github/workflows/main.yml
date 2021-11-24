@@ -41,6 +41,8 @@ jobs:
         service: ${{ env.SERVICE }}
         image: gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
         region: ${{ env.REGION }}
+        platform: "managed"
+
     #- name: Deploy to Cloud Run
      # run: |-
         #gcloud run deploy ${{ env.SERVICE }} \
