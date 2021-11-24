@@ -1,21 +1,33 @@
-# Use the official lightweight Python image.
-# https://hub.docker.com/_/python
-FROM python:3.9-slim
+FROM ubuntu:18.04
 
-# Allow statements and log messages to immediately appear in the Knative logs
-ENV PYTHONUNBUFFERED True
+# Update and download dependencies
+RUN apt-get update
+RUN apt-get install -y libssl-dev curl iputils-ping jq wget
 
-# Copy local code to the container image.
-ENV APP_HOME /app
-WORKDIR $APP_HOME
-COPY . ./
+# Download Docker for container builds on Kubernetes
+ENV DOCKER_CHANNEL stable
+ENV DOCKER_VERSION 18.09.1
+RUN wget -O docker.tgz "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" && \
+    tar --extract --file docker.tgz --strip-components 1 --directory /usr/local/bin/ && \
+    rm docker.tgz
 
-# Install production dependencies.
-RUN pip install Flask gunicorn
+# Directory for runner to operate in
+RUN mkdir ./actions-runner
+WORKDIR /home/actions-runner
 
-# Run the web service on container startup. Here we use the gunicorn
-# webserver, with one worker process and 8 threads.
-# For environments with multiple CPU cores, increase the number of workers
-# to be equal to the cores available.
-# Timeout is set to 0 to disable the timeouts of the workers to allow Cloud Run to handle instance scaling.
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
+# Download Actions runner
+# https://github.com/terraform-google-modules/terraform-google-github-actions-runners/blob/598a38a72b7bbaf56be431c07de04752c521fd60/examples/gh-runner-gke-dind/Dockerfile#L28-L31
+ARG GH_RUNNER_VERSION="2.267.1"
+RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz" && \
+    tar -zxf actions.tar.gz && \
+    rm -f actions.tar.gz
+
+# Install dependencies
+RUN ./bin/installdependencies.sh
+
+# Allow runner to run as root
+ENV RUNNER_ALLOW_RUNASROOT=1
+
+COPY startup.sh .
+
+ENTRYPOINT [".entrypoint.sh"]
