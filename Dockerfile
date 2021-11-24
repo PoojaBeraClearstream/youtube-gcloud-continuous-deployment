@@ -1,22 +1,21 @@
 # Use the official lightweight Python image.
 # https://hub.docker.com/_/python
-FROM ubuntu:18.04
+FROM python:3.9-slim
 
-RUN apt-get update && \
-    apt-get -y install curl \
-    iputils-ping \
-    tar \
-    jq \
-    python
+# Allow statements and log messages to immediately appear in the Knative logs
+ENV PYTHONUNBUFFERED True
 
-ARG GH_RUNNER_VERSION="2.263.0"
-WORKDIR /runner
-RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz" && \
-    tar -zxf actions.tar.gz && \
-    rm -f actions.tar.gz && \
-    ./bin/installdependencies.sh
+# Copy local code to the container image.
+ENV APP_HOME /app
+WORKDIR $APP_HOME
+COPY . ./
 
-COPY entrypoint.sh .
-RUN chmod +x entrypoint.sh
-#ENTRYPOINT ["/bin/bash]
-ENTRYPOINT ["/runner/entrypoint.sh"]
+# Install production dependencies.
+RUN pip install Flask gunicorn
+
+# Run the web service on container startup. Here we use the gunicorn
+# webserver, with one worker process and 8 threads.
+# For environments with multiple CPU cores, increase the number of workers
+# to be equal to the cores available.
+# Timeout is set to 0 to disable the timeouts of the workers to allow Cloud Run to handle instance scaling.
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
