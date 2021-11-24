@@ -32,7 +32,7 @@ jobs:
         docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} .
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
     - name: Deploy
-      run: gcloud run deploy $APP_ID --image gcr.io/$PROJECT_ID/$SERVICE:$GITHUB_SHA --platform managed --region $REGION --allow-unauthenticated
+      run: gcloud run deploy ${{ env.SERVICE }} --image gcr.io/{{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} --platform managed --region ${{ env.REGION }} --allow-unauthenticated
 
         
     #- name: Deploy to Cloud Run
