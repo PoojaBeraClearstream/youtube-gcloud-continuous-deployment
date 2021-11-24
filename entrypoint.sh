@@ -1,11 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-ACTIONS_RUNNER_INPUT_NAME=$HOSTNAME
-# get regsistration token for this runnner
-ACTIONS_RUNNER_INPUT_TOKEN="$(curl -sS --request POST --url "https://api.github.com/repos/PoojaBeraClearstream/youtube-gcloud-continuous-deployment/actions/runners/registration-token" --header "authorization: Bearer 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"  --header 'content-type: application/json' | jq -r .token)"
-# configure runner
-export RUNNER_ALLOW_RUNASROOT=1
-/runner/config.sh --unattended --replace --work "/tmp" --url "$ACTIONS_RUNNER_INPUT_URL" --token "$ACTIONS_RUNNER_INPUT_TOKEN" --labels k8s-runner
-# start runner
-# https://github.com/actions/runner/issues/246#issuecomment-615293718
-/runner/bin/runsvc.sh
+# Generate
+CONFIG_TOKEN=$(curl --data "" --header "Authorization: Bearer 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" https://api.github.com/repos/PoojaBeraClearstream/youtube-gcloud-continuous-deployment/actions/runners/registration-token | jq -r '.token')
+
+# Create the runner and configure it
+./config.sh --url https://github.com/PoojaBeraClearstream/youtube-gcloud-continuous-deployment --token $CONFIG_TOKEN --unattended --replace
+
+# Run it
+./bin/runsvc.sh
