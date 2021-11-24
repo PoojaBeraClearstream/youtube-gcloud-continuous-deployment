@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ACTIONS_RUNNER_INPUT_NAME=$HOSTNAME
 # get regsistration token for this runnner
