@@ -28,6 +28,6 @@ RUN ./bin/installdependencies.sh
 # Allow runner to run as root
 ENV RUNNER_ALLOW_RUNASROOT=1
 
-COPY startup.sh .
+COPY entrypoint.sh .
 
 ENTRYPOINT [".entrypoint.sh"]
