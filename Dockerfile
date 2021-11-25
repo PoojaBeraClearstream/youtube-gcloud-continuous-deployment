@@ -1,6 +1,6 @@
 # Use the official lightweight Python image.
 # https://hub.docker.com/_/python
-FROM ubuntu:18.04
+FROM ubuntu:latest
 
 RUN apt-get update && \
     apt-get -y install curl \
@@ -9,7 +9,7 @@ RUN apt-get update && \
     jq \
     python
 
-ARG GH_RUNNER_VERSION="2.263.0"
+ARG GH_RUNNER_VERSION="2.278.0"
 WORKDIR /runner
 RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz" && \
     tar -zxf actions.tar.gz && \
@@ -20,6 +20,6 @@ COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 #ENTRYPOINT ["/bin/bash]
 #ENTRYPOINT ["./entrypoint.sh"]
-
-CMD ["/entrypoint.sh"]
+EXPOSE 8080
+CMD ["/runner/entrypoint.sh"]
 #CMD ["./bin/Runner.Listener", "run", "--startuptype", "service"]
