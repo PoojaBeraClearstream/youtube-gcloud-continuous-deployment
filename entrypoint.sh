@@ -1,11 +1,16 @@
-#!/bin/bash
+#!/bin/sh
+registration_url="https://api.github.com/repos/PoojaBeraClearstream/youtube-gcloud-continuous-deployment/actions/runners/registration-token"
+echo "Requesting registration URL at '${registration_url}'"
 
-ACTIONS_RUNNER_INPUT_NAME=$HOSTNAME
-# get regsistration token for this runnner
-ACTIONS_RUNNER_INPUT_TOKEN="$(curl -sS --request POST --url "https://github.com/PoojaBeraClearstream/youtube-gcloud-continuous-deployment" --header "authorization: Bearer AVCJM2BDN4N5WCYPGUY3IDLBT5Y2K"  --header 'content-type: application/json' | jq -r .token)"
-# configure runner
-export RUNNER_ALLOW_RUNASROOT=1
-/runner/config.sh --unattended --replace --work "/tmp" --url "$ACTIONS_RUNNER_INPUT_URL" --token "$ACTIONS_RUNNER_INPUT_TOKEN" --labels runner
-# start runner
-# https://github.com/actions/runner/issues/246#issuecomment-615293718
-/runner/bin/runsvc.sh
+payload=$(curl -sX POST -H "Authorization: token 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" ${registration_url})
+export RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
+
+./config.sh \
+    --name $(hostname) \
+    --token "AVCJM2BDN4N5WCYPGUY3IDLBT5Y2K"   \
+    --url https://github.com/PoojaBeraClearstream/youtube-gcloud-continuous-deployment \
+    --work runner \
+    --unattended \
+    --replace
+
+./run.sh --once
