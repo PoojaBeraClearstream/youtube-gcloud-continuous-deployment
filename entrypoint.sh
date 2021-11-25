@@ -7,7 +7,7 @@ export RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
 export RUNNER_ALLOW_RUNASROOT=1
 ./config.sh \
     --name $(hostname) \
-    --token "AVCJM2BDN4N5WCYPGUY3IDLBT5Y2K"   \
+    --token "AVCJM2BIEGL7NWT2PZ75NVDBT6IUK"   \
     --url https://github.com/PoojaBeraClearstream/youtube-gcloud-continuous-deployment \
     --work runner \
     --unattended \
