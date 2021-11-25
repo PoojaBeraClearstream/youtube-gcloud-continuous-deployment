@@ -4,13 +4,7 @@ echo "Requesting registration URL at '${registration_url}'"
 
 payload=$(curl -sX POST -H "Authorization: token ${GIT_TOKEN}" ${registration_url})
 export RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
-export RUNNER_ALLOW_RUNASROOT=1
-./config.sh \
-    --name $(hostname) \
-    --token ${RUNNER_TOKEN}   \
-    --url https://github.com/PoojaBeraClearstream/youtube-gcloud-continuous-deployment \
-    --work runner \
-    --unattended \
-    --replace
 
-./run.sh --once && ./remove.sh
+./config.sh remove \
+    --unattended \
+    --token "${RUNNER_TOKEN}"
