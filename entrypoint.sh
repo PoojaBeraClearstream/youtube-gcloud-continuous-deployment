@@ -4,7 +4,7 @@ echo "Requesting registration URL at '${registration_url}'"
 
 payload=$(curl -sX POST -H "Authorization: token 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" ${registration_url})
 export RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
-
+export RUNNER_ALLOW_RUNASROOT=1
 ./config.sh \
     --name $(hostname) \
     --token "AVCJM2BDN4N5WCYPGUY3IDLBT5Y2K"   \
