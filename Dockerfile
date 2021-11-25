@@ -30,4 +30,5 @@ ENV RUNNER_ALLOW_RUNASROOT=1
 
 COPY entrypoint.sh .
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
+CMD ["./bin/Runner.Listener", "run", "--startuptype", "service"]
