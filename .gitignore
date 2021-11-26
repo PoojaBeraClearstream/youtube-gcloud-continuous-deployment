@@ -6,7 +6,6 @@ __pycache__/
 
 keys.json
 .idea
-token
 
 # C extensions
 *.so
