@@ -1,7 +1,5 @@
 #!/bin/sh
 
-ARG GIT_TOKEN
-
 registration_url="https://api.github.com/repos/PoojaBeraClearstream/youtube-gcloud-continuous-deployment/actions/runners/registration-token"
 echo "Requesting registration URL at '${registration_url}'"
 
