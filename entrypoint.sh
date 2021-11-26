@@ -1,4 +1,7 @@
 #!/bin/sh
+
+ARG GIT_TOKEN
+
 registration_url="https://api.github.com/repos/PoojaBeraClearstream/youtube-gcloud-continuous-deployment/actions/runners/registration-token"
 echo "Requesting registration URL at '${registration_url}'"
 
@@ -7,10 +10,10 @@ export RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
 export RUNNER_ALLOW_RUNASROOT=1
 ./config.sh \
     --name $(hostname) \
-    --token ${RUNNER_TOKEN}   \
+    --token ${GIT_TOKEN}   \
     --url https://github.com/PoojaBeraClearstream/youtube-gcloud-continuous-deployment \
     --work runner \
     --unattended \
     --replace
 
-./run.sh --once && ./remove.sh
+./run.sh --once 

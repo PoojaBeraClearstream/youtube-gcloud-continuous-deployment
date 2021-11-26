@@ -18,6 +18,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Set github token
+      run: |
+          GIT_TOKEN=$(<token)
+          echo "GIT_TOKEN=${GIT_TOKEN}" >> $GITHUB_ENV
+
     - name: Setup Cloud SDK
       uses: google-github-actions/setup-gcloud@v0.2.0
       with:
