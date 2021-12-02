@@ -21,5 +21,5 @@ RUN chmod +x entrypoint.sh
 #ENTRYPOINT ["/bin/bash]
 #ENTRYPOINT ["./entrypoint.sh"]
 EXPOSE 8080
-CMD ["/runner/entrypoint.sh"] -p 80:8080 nginx
+CMD ["/runner/entrypoint.sh"] 
 #CMD ["./bin/Runner.Listener", "run", "--startuptype", "service"]
