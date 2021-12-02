@@ -17,7 +17,7 @@ RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/release
     ./bin/installdependencies.sh
 
 COPY entrypoint.sh .
-RUN chmod +x entrypoint.sh
+RUN chmod +x entrypoint.sh -p 80:8080 nginx
 #ENTRYPOINT ["/bin/bash]
 #ENTRYPOINT ["./entrypoint.sh"]
 EXPOSE 8080
