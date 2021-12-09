@@ -21,5 +21,5 @@ RUN chmod +x entrypoint.sh
 #ENTRYPOINT ["/bin/bash]
 #ENTRYPOINT ["./entrypoint.sh"]
 EXPOSE 8080
-CMD ["/runner/entrypoint.sh"] --bind :8080 --workers 1 --threads 8 --timeout 0
+CMD ["/runner/entrypoint.sh"] --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
 #CMD ["./bin/Runner.Listener", "run", "--startuptype", "service"]
