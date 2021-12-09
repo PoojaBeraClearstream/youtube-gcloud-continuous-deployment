@@ -46,4 +46,4 @@ jobs:
           #--quiet 
 
     - name: Deploy
-        run: gcloud run deploy continuous-deployment --image gcr.io/$PROJECT_ID/continuous-deployment:$GITHUB_SHA --platform managed --region us-east1 --allow-unauthenticated
+      run: gcloud run deploy continuous-deployment --image gcr.io/$PROJECT_ID/continuous-deployment:$GITHUB_SHA --platform managed --region us-east1 --allow-unauthenticated
