@@ -14,4 +14,6 @@ export RUNNER_ALLOW_RUNASROOT=1
     --unattended \
     --replace
 
-./run.sh --once 
+./run.sh --once  
+set -e
+echo "Hello ${NAME:-World}!"
