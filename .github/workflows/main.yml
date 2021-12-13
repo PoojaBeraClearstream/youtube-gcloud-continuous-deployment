@@ -44,5 +44,8 @@ jobs:
          # --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} \
          # --platform "managed" \
           #--quiet 
+         
+    - name: Run a one-line script
+      run: echo Hello, world!
 
     
